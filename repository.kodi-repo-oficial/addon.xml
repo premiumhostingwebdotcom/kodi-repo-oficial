@@ -1,4 +1,4 @@
-<addon id="repository.kodi-repo-oficial" name="DigiTele TV Repo 2015" version="1.0" provider-name="Digitele TV ESP"> 
+<addon id="repository.kodi-repo-oficial" name="DigiTele TV Repo 2015" version="1.0" provider-name="DigiteleTV"> 
 	<extension point="xbmc.addon.repository" name="DigiTele TV Repo 2015">                    
 		<info compressed="false">https://raw.github.com/premiumhostingwebdotcom/kodi-repo-oficial/master/addons.xml</info>
 		<checksum>https://raw.github.com/premiumhostingwebdotcom/kodi-repo-oficial/master/addons.xml.md5</checksum>
@@ -6,7 +6,7 @@
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>Instalar Add-Ons de Digitele</summary>
-		<description>Descarga e Instala Addons de Digitele Esp....... Para mas informacion y actualizaciones metete en www.premiumhostingweb.com</description>
+		<description>Descarga e Instala Addons de Digitele premiumhostingweb.com</description>
 		<platform>all</platform>
 	</extension>
 </addon>

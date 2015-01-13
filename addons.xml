@@ -151,6 +151,19 @@ It broadcasts channels through the internet 24/7. The service is completely free
 	</extension>
 </addon>
 
+<addon id="repository.kodi-repo-oficial" name="DigiTele TV Repo 2015" version="1.0" provider-name="DigiteleTV">
+	<extension point="xbmc.addon.repository" name="DigiTele TV Repo 2015">
+		<info compressed="false">https://raw.github.com/premiumhostingwebdotcom/kodi-repo-oficial/master/addons.xml</info>
+		<checksum>https://raw.github.com/premiumhostingwebdotcom/kodi-repo-oficial/master/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.github.com/premiumhostingwebdotcom/kodi-repo-oficial/master/zips</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Instalar Add-Ons de Digitele</summary>
+		<description>Descarga e Instala Addons de Digitele premiumhostingweb.com</description>
+		<platform>all</platform>
+	</extension>
+</addon>
+
 <addon id="repository.MaxMustermann.xbmc" name="MaxMustermann's add-ons" version="1.0.1" provider-name="MaxMustermann">
 	<extension point="xbmc.addon.repository" name="MaxMustermann's add-on repository">
 		<info compressed="false">http://xbmc-development-with-passion.googlecode.com/svn/branches/repo/addons.xml</info>
