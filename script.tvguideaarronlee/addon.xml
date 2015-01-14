@@ -10,6 +10,7 @@
 		<import addon="plugin.video.p2p-streams" version="0.2.7"/>
         <import addon="plugin.video.SportsDevil" version="2.0.2"/>
 		<import addon="plugin.video.f4mTester" version="2.1.7"/>
+		<import addon="plugin.video.live.streams" version="6.4"/>
         <import addon="repository.MaxMustermann.xbmc" version="1.0.1"/>
 	    <import addon="repository.p2p-streams.xbmc" version="1.0.3"/>
 		<import addon="repository.SportsDevil" version="1.0.1"/>
