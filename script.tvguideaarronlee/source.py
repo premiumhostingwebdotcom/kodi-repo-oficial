@@ -996,7 +996,7 @@ class DIGITELESource(Source):
     def getCategories(self):
         cat  = dict()
         path = os.path.join(datapath, 'cats.xml')
-        url = 'http://digiteletv.premiumhostingweb.com/cats-%s.xml'%UserName
+        url = 'http://digiteletv.premiumhostingweb.com/users/cats-%s.xml'%UserName
         f = urllib2.urlopen(url, timeout=30)
         xml = f.read()
         f.close()

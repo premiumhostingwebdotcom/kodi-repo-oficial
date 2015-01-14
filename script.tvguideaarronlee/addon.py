@@ -29,7 +29,7 @@ xbmc.Player().stop
 ADDON       = xbmcaddon.Addon(id = 'script.tvguideaarronlee')
 HOME        = ADDON.getAddonInfo('path')
 TITLE       = 'DigiTele TV Esp'
-VERSION     = '5.4.0'
+VERSION     = '5.4.1'
 addon       = xbmcaddon.Addon()
 addonid     = addon.getAddonInfo('id')
 versioninfo = addon.getAddonInfo('version')
@@ -95,7 +95,7 @@ def ttTTtt(i, t1, t2=[]):
 
 path = current_ini
 try:
-    url = 'https://dl.dropboxusercontent.com/u/108091935/addons.ini'
+    url = 'http://digiteletv.premiumhostingweb.com/addons.ini'
     urllib.urlretrieve(url, path)
 except:
     pass
