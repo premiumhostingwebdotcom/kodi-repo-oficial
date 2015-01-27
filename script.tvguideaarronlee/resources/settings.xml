@@ -16,7 +16,7 @@
         
 	<setting id="gmtprev" type="text" label="Previous GMT" default="0" visible="false"/>
 	<setting id="categories" label="categories" type="text" default="" visible="false"/>
-    <setting id="VERSION" type="text" label="Current Version" default="5.4.1" visible="false"/>
+    <setting id="VERSION" type="text" label="Current Version" default="5.4.2" visible="false"/>
     </category>
 
     <category label="30114">
@@ -36,6 +36,7 @@
 	<category label="Cuenta Premium">
 	<setting id="user" type="text" label="Usuario" default=""/>
 	<setting id="pass" type="text" label="Contraseña" default=""/>
+	<setting id="djfhlskh" type="text" label="DigiClave" default=""/>
 	    
         <setting id="notifications.enabled" label="30106" type="bool" default="false" visible="false"/>
         <setting id="dummy" label="30108" type="action" action="RunScript($CWD/notification.py)" visible="false"/>

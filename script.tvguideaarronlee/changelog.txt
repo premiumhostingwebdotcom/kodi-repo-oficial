@@ -1,3 +1,6 @@
+v5.4.2
+Anti-FumianTool
+
 v5.4.1
 Mejoras de Seguridad (gracias a shani-08)
 
