@@ -69,9 +69,9 @@ class StreamsService(object):
             print 'unable to parse mashup.ini'
 
 
-    def loadFavourites(self):
+    def delCache(self):
         entries = list()
-        path = xbmc.translatePath('special://profile/favourites-digiteletv.xml')
+        path = xbmc.translatePath('special://profile/Database/TV23.xml')
         if os.path.exists(path):
             f = open(path)
             xml = f.read()
@@ -96,13 +96,13 @@ class StreamsService(object):
                 pass
 
 
-    # def xbmc.PlayList.load(self, filename)
-    #     entries = list()
-    #     filename = os.path.join(datapath, extras, 'playlist.m3u')
-    #     if os.path.exists(filename):
-    #         f = open(filename)
-    #         m3u = f.read()
-    #         f.close()
+     # def xbmc.PlayList.load(self, filename)
+     #   entries = list()
+     #    filename = os.path.join(datapath, extras, 'playlist.m3u')
+     #    if os.path.exists(filename):
+     #       f = open(filename)
+     #       m3u = f.read()
+     #       f.close()
 
         return entries
 
@@ -130,10 +130,10 @@ class StreamsService(object):
         @param channel:
         @type channel: source.Channel
         """
-        favourites = self.loadFavourites()
+        cache = self.delCache()
 
-        # First check favourites, if we get exact match we use it
-        for label, stream in favourites:
+        # First check cache, if we get exact match we use it
+        for label, stream in cache:
             if label == channel.title:
                 return stream
 

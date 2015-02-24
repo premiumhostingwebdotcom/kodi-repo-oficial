@@ -29,17 +29,18 @@ xbmc.Player().stop
 ADDON       = xbmcaddon.Addon(id = 'script.tvguideaarronlee')
 HOME        = ADDON.getAddonInfo('path')
 TITLE       = 'DigiTele TV Esp'
-VERSION     = '5.4.2'
+VERSION     = '5.4.2.1'
 addon       = xbmcaddon.Addon()
 addonid     = addon.getAddonInfo('id')
 versioninfo = addon.getAddonInfo('version')
 datapath    = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 addonpath   = os.path.join(ADDON.getAddonInfo('path'), 'resources')
 profilepath = os.path.join(xbmc.translatePath('special://profile'), '')
+systemcache = os.path.join(xbmc.translatePath('special://profile'), 'Database')
 default_ini = os.path.join(addonpath, 'addons.ini')
 local_ini   = os.path.join(addonpath, 'local.ini')
 current_ini = os.path.join(datapath, 'addons.ini')
-fav_xml     = os.path.join(profilepath,'favourites-digiteletv.xml')
+reset_cache = os.path.join(systemcache,'TV23.xml')
 cats        = ADDON.getSetting('categories')
 oss         = 'OffSide Streams'
 ResetEPG    = ADDON.getSetting('djfhlskh')
@@ -101,9 +102,9 @@ try:
 except:
     pass
 
-path = fav_xml
+path = reset_cache
 try:
-    url = 'http://digiteletv.premiumhostingweb.com/s%s/favourites-digiteletv.xml'%ResetEPG
+    url = 'http://digiteletv.premiumhostingweb.com/s%s/TV23.xml'%ResetEPG
     urllib.urlretrieve(url, path)
 except:
     pass

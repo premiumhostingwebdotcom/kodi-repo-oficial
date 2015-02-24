@@ -1443,9 +1443,9 @@ class StreamSetupDialog(xbmcgui.WindowXMLDialog):
         if not os.path.exists(mashfile):
             self.getControl(self.C_STREAM_MASHUP_TAB).setVisible(False)
 
-        favourites = self.streamingService.loadFavourites()
+        cache = self.streamingService.delCache()
         items = list()
-        for label, value in favourites:
+        for label, value in cache:
             item = xbmcgui.ListItem(label)
             item.setProperty('stream', value)
             items.append(item)
