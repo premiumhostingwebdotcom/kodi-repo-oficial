@@ -942,16 +942,16 @@ class DIGITELESource(Source):
         digiteleUrl = self.digiteleUrl.upper()
 
         if digiteleUrl == 'PAQUETE TOTAL':
-            return 'http://digiteletv.premiumhostingweb.com/guide.xml'
+            return 'http://host.premiumhostingweb.com/guide.xml'
 
         if digiteleUrl == 'DIGITAL+ - TDT':
-            return 'http://digiteletv.premiumhostingweb.com/guide-spain.xml'
+            return 'http://host.premiumhostingweb.com/guide-spain.xml'
 			
         if digiteleUrl == 'DEPORTES':
-            return 'http://digiteletv.premiumhostingweb.com/guide-deportes.xml'
+            return 'http://host.premiumhostingweb.com/guide-deportes.xml'
 			
         if digiteleUrl == 'SKYDIGITAL UK':
-            return 'http://digiteletv.premiumhostingweb.com/guide-uk.xml'
+            return 'http://host.premiumhostingweb.com/guide-uk.xml'
 			
 
 

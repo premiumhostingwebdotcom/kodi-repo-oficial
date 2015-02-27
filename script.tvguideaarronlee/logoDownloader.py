@@ -7,7 +7,7 @@ datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 Path=os.path.join(datapath,'extras')
 try: os.makedirs(Path)
 except: pass
-Url = 'http://digiteletv.premiumhostingweb.com/logos.zip'
+Url = 'http://host.premiumhostingweb.com/logos.zip'
 LocalName = 'logos.zip'
 LocalFile = xbmc.translatePath(os.path.join(Path, LocalName))
 dialog.update(33)

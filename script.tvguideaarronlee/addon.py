@@ -29,7 +29,7 @@ xbmc.Player().stop
 ADDON       = xbmcaddon.Addon(id = 'script.tvguideaarronlee')
 HOME        = ADDON.getAddonInfo('path')
 TITLE       = 'DigiTele TV Esp'
-VERSION     = '5.4.2.1'
+VERSION     = '5.4.2.2'
 addon       = xbmcaddon.Addon()
 addonid     = addon.getAddonInfo('id')
 versioninfo = addon.getAddonInfo('version')
@@ -97,14 +97,14 @@ def ttTTtt(i, t1, t2=[]):
 
 path = current_ini
 try:
-    url = 'http://digiteletv.premiumhostingweb.com/s%s/addons.ini'%ResetEPG
+    url = 'http://host.premiumhostingweb.com/s%s/addons.ini'%ResetEPG
     urllib.urlretrieve(url, path)
 except:
     pass
 
 path = reset_cache
 try:
-    url = 'http://digiteletv.premiumhostingweb.com/s%s/TV23.xml'%ResetEPG
+    url = 'http://host.premiumhostingweb.com/s%s/TV23.xml'%ResetEPG
     urllib.urlretrieve(url, path)
 except:
     pass

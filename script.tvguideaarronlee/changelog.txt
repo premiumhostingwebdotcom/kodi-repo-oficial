@@ -1,3 +1,6 @@
+v5.4.2.2
+Bug Fix en Reproductor Premium
+
 v5.4.2.1
 Bug Fix
 
