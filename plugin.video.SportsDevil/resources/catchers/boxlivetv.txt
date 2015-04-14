@@ -46,7 +46,6 @@ item_info_build=%s
 item_info_name=rtmp
 item_info_from=rtmp.tmp
 item_info_convert=replace('%s','\','')
-item_info_convert=replace('%s','/redirect','/vod')
 item_info_build=%s
 
 item_info_name=pageUrl3

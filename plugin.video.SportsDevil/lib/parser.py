@@ -7,6 +7,7 @@ import random
 import re
 import urllib
 import string
+import HTMLParser
 from string import lower
 
 from entities.CList import CList
@@ -165,6 +166,7 @@ class Parser(object):
             maxits = 2      # 1 optimistic + 1 demystified
             ignoreCache = False
             demystify = False
+            back = ''
             startUrl = inputList.curr_url
             #print inputList, lItem
             while count == 0 and i <= maxits:
@@ -173,6 +175,8 @@ class Parser(object):
                     demystify =  True
 
                 # Trivial: url is from known streamer
+                if back:
+                    lItem['referer'] = back
                 items = self.__parseHtml(inputList.curr_url, '"' + inputList.curr_url + '"', inputList.rules, inputList.skill, inputList.cfg, lItem)
                 count = len(items)
 
@@ -182,6 +186,7 @@ class Parser(object):
                     referer = ''
                     if lItem['referer']:
                         referer = lItem['referer']
+                    inputList.curr_url = HTMLParser.HTMLParser().unescape(urllib.unquote(inputList.curr_url))
                     data = common.getHTML(inputList.curr_url, None, referer, ignoreCache, demystify)
                     if data == '':
                         return False
@@ -222,6 +227,8 @@ class Parser(object):
                         firstJS = item[0]
                         streamId = firstJS[0]
                         jsUrl = firstJS[1]
+                        if not jsUrl.startswith('http://'):
+                            jsUrl = urllib.basejoin(startUrl,jsUrl)
                         streamerName = getHostName(jsUrl)
                         jsSource = getHTML(jsUrl, None, startUrl, True, False)
                         phpUrl = findPHP(jsSource, streamId)
@@ -236,6 +243,16 @@ class Parser(object):
                                 items = []
                                 items.append(item)
                                 count = 1
+                            else:
+                                red = phpUrl
+                                common.log('    -> Redirect: ' + red)
+                                if back == red:
+                                    break
+                                back = inputList.curr_url
+                                inputList.curr_url = red
+                                common.log(str(len(inputList.items)) + ' items ' + inputList.cfg + ' -> ' + red)
+                                startUrl = red
+                                continue
 
                 # find vcods
                 #common.log('find vcods')
@@ -273,12 +290,15 @@ class Parser(object):
                     if startUrl == red:
                         common.log('    -> No redirect found')
                     else:
+                        red = HTMLParser.HTMLParser().unescape(red) 
+                        red = urllib.unquote(red)
                         common.log('    -> Redirect: ' + red)
+                        if back == red:
+                            break
+                        back = inputList.curr_url
                         inputList.curr_url = red
                         common.log(str(len(inputList.items)) + ' items ' + inputList.cfg + ' -> ' + red)
                         startUrl = red
-                        if lItem['referer']:
-                            lItem['referer'] = red
                         i = 0
 
                 i += 1
@@ -320,18 +340,13 @@ class Parser(object):
 
     def __findRedirect(self, page, referer='', demystify=False):
         data = common.getHTML(page, None, referer = referer, demystify = demystify)
-
-        link = findVideoFrameLink(page, data)
-        if link:
-            return link
-        else:
-            link = findContentRefreshLink(data)
-            if link:
-                return link
-            else:
-                link = findEmbedPHPLink(data)
-                if link:
-                    return link
+        
+        if findVideoFrameLink(page, data):
+            return findVideoFrameLink(page, data)
+        elif findContentRefreshLink(data):
+            return findContentRefreshLink(data)
+        elif findEmbedPHPLink(data):
+            return findEmbedPHPLink(data)
             
         if not demystify:
             return self.__findRedirect(page, referer, True)
@@ -465,74 +480,75 @@ class Parser(object):
       
             if not hasattr(item_rule, 'precheck') or (item_rule.precheck in data):
       
-              revid = re.compile(item_rule.infos, re.IGNORECASE + re.DOTALL + re.MULTILINE)
-              for reinfos in revid.findall(data):
-                  tmp = CListItem()
+                revid = re.compile(item_rule.infos, re.IGNORECASE + re.DOTALL + re.MULTILINE)
+                for reinfos in revid.findall(data):
+                    tmp = CListItem()
                   
-                  if lItem['referer']:
-                      tmp['referer'] = lItem['referer']
+                    if lItem['referer']:
+                        tmp['referer'] = lItem['referer']
                       
-                  if item_rule.order.find('|') != -1:
-                      infos_names = item_rule.order.split('|')
-                      infos_values = list(reinfos)
-                      i = 0
-                      for name in infos_names:
-                          tmp[name] = infos_values[i]
-                          i = i+1
-                  else:
-                      tmp[item_rule.order] = reinfos
+                    if item_rule.order.find('|') != -1:
+                        infos_names = item_rule.order.split('|')
+                        infos_values = list(reinfos)
+                        i = 0
+                        for name in infos_names:
+                            tmp[name] = infos_values[i]
+                            i = i+1
+                    else:
+                        tmp[item_rule.order] = reinfos
 
-                  for info in item_rule.info_list:
-                      info_value = tmp[info.name]
-                      if info_value:
-                          if info.build.find('%s') != -1:
-                              tmpVal = enc.smart_unicode(info.build % enc.smart_unicode(info_value))
-                              tmp[info.name] = tmpVal
-                          continue
+                    for info in item_rule.info_list:
+                        info_value = tmp[info.name]
+                        if info_value:
+                            if info.build.find('%s') != -1:
+                                tmpVal = enc.smart_unicode(info.build % enc.smart_unicode(info_value))
+                                tmp[info.name] = tmpVal
+                            continue
 
-                      if info.build.find('%s') != -1:
-                          if info.src.__contains__('+'):
-                              tmpArr = info.src.split('+')
-                              src = ''
-                              for t in tmpArr:
-                                  t = t.strip()
-                                  if t.find('\'') != -1:
-                                      src = src + t.strip('\'')
-                                  else:
-                                      src = src + enc.smart_unicode(tmp[t])
-                          elif info.src.__contains__('||'):
-                              variables = info.src.split('||')
-                              src = firstNonEmpty(tmp, variables)
-                          else:
-                              src = tmp[info.src]
+                        if info.build.find('%s') != -1:
+                            if info.src.__contains__('+'):
+                                tmpArr = info.src.split('+')
+                                src = ''
+                                for t in tmpArr:
+                                    t = t.strip()
+                                    if t.find('\'') != -1:
+                                        src = src + t.strip('\'')
+                                    else:
+                                        src = src + enc.smart_unicode(tmp[t])
+                            elif info.src.__contains__('||'):
+                                variables = info.src.split('||')
+                                src = firstNonEmpty(tmp, variables)
+                            else:
+                                src = tmp[info.src]
 
-                          if src and info.convert != []:                               
-                              src = self.__parseCommands(tmp, src, info.convert)
-                              if isinstance(src, dict):
-                                  for dKey in src:
-                                      tmp[dKey] = src[dKey]
-                                  src = src.values()[0]
+                            if src and info.convert != []: 
+                                tmp['referer'] = url                              
+                                src = self.__parseCommands(tmp, src, info.convert)
+                                if isinstance(src, dict):
+                                    for dKey in src:
+                                        tmp[dKey] = src[dKey]
+                                    src = src.values()[0]
 
-                          info_value = info.build % (enc.smart_unicode(src))
-                      else:
-                          info_value = info.build
+                            info_value = info.build % (enc.smart_unicode(src))
+                        else:
+                            info_value = info.build
 
-                      tmp[info.name] = info_value
+                        tmp[info.name] = info_value
 
 
-                  tmp['url'] = enc.smart_unicode(item_rule.url_build % (enc.smart_unicode(tmp['url'])))
-                  tmp.merge(lItem)
-                  if item_rule.skill.find('append') != -1:
-                      tmp['url'] = url + tmp['url']
+                    tmp['url'] = enc.smart_unicode(item_rule.url_build % (enc.smart_unicode(tmp['url'])))
+                    tmp.merge(lItem)
+                    if item_rule.skill.find('append') != -1:
+                        tmp['url'] = url + tmp['url']
 
-                  if item_rule.skill.find('space') != -1:
-                      tmp['title'] = ' %s ' % tmp['title'].strip()
+                    if item_rule.skill.find('space') != -1:
+                        tmp['title'] = ' %s ' % tmp['title'].strip()
 
-                  if skills.find('videoTitle') > -1:
-                      tmp['videoTitle'] = tmp['title']
+                    if skills.find('videoTitle') > -1:
+                        tmp['videoTitle'] = tmp['title']
 
-                  tmp['definedIn'] = definedIn
-                  items.append(tmp)
+                    tmp['definedIn'] = definedIn
+                    items.append(tmp)
 
         return items
 
@@ -606,11 +622,11 @@ class Parser(object):
 
             elif command == 'quote':
                 try:
-                    src = urllib.quote(params.strip("'").replace('%s', urllib.quote(src)))
+                    src = urllib.quote(params.strip("'").replace('%s', src),'')
                 except:
                     cleanParams = params.strip("'")
                     cleanParams = cleanParams.replace("%s",src.encode('utf-8'))
-                    src = urllib.quote(cleanParams)
+                    src = urllib.quote(cleanParams,'')
 
             elif command == 'unquote':
                 src = urllib.unquote(params.strip("'").replace('%s', src))
@@ -626,6 +642,9 @@ class Parser(object):
 
             elif command == 'decodeRawUnicode':
                 src = cc.decodeRawUnicode(src)
+            
+            elif command == 'decodeXppod':
+                src = cc.decodeXppod(src)
 
             elif command == 'replace':
                 src = cc.replace(params, src)
@@ -666,7 +685,7 @@ class Parser(object):
             elif command == 'camelcase':
                 src = enc.smart_unicode(src)
                 src = string.capwords(string.capwords(src, '-'))
-				
+                
             elif command == 'demystify':
                 print 'demystify'
                 src = crypt.doDemystify(src)

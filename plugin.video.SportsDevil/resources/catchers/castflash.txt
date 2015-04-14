@@ -1,0 +1,17 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=castflash
+
+item_info_name=ref
+item_info_from=@PARAM1@
+item_info_build=%s
+
+item_info_name=m3u8
+item_info_from=@PARAM1@
+item_info_convert=getInfo('%s','.*?file["'][:,]["']([^"']+)["']','@REFERER@')
+item_info_convert=decodeXppod
+item_info_build=%s
+
+item_info_name=url
+item_info_from=m3u8
+item_info_build=%s

@@ -1,0 +1,27 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=1broadcastlive - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_build=http://1broadcastlive.com/embed/embed.php?channel=%s&w=650&h=400
+
+item_info_name=flashvars
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*?file=([^&]+)&streamer=([^&]+)&','@REFERER@','file|rtmp.tmp')
+item_info_build=%s
+
+item_info_name=rtmp
+item_info_from=rtmp.tmp
+item_info_convert=replace('%s','rtmp','rtmpe')
+item_info_build=%s
+
+item_info_name=app
+item_info_from=rtmp
+item_info_convert=parseText('%s','.*rtmpe://[\.\w:]*/([^"']+)')
+item_info_convert=replace('%s','redirect','live')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmpe://66.85.133.162/live app=' + app + ' playpath=' + file + ' swfUrl=http://1broadcastlive.com/embed/noreproductor.php?o=1&kpublica=29245 swfhash=80112cc4b96d80291f29f61132913d60c8062961edebfb13f43b8df16567a42d swfsize=178639 flashver=WIN\2017,0,0,134 live=1 timeout=14 pageUrl=' + pageUrl
+item_info_build=%s

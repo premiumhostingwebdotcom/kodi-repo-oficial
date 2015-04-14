@@ -1,3 +1,6 @@
+v5.4.2.3
+DigiTele Sports FIX update
+
 v5.4.2.2
 Bug Fix en Reproductor Premium
 

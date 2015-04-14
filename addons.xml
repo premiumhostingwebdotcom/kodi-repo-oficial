@@ -98,7 +98,7 @@ Créditos: Cristi - Atlanta (xsopcast plugin); NouisMons (acestream engine plugi
 
 <addon
   id="plugin.video.SportsDevil"
-  version="3.0.1"
+  version="3.0.2"
   name="DigiTele Sports"
   provider-name="AarronLee, MaxMustermann">
   <requires>
@@ -294,7 +294,7 @@ Créditos: Cristi - Atlanta (xsopcast plugin); NouisMons (acestream engine plugi
   </extension>
 </addon>
 
-<addon id="script.tvguideaarronlee" name="DigiTele TV España" version="5.4.2.2" provider-name="AarronLee, DixieDean, Spoyser">
+<addon id="script.tvguideaarronlee" name="DigiTele TV España" version="5.4.2.3" provider-name="AarronLee, DixieDean, Spoyser">
     <requires>
 		<import addon="xbmc.python" version="2.1.0"/>
         <import addon="script.module.simplejson" version="2.0.10"/>
@@ -303,7 +303,7 @@ Créditos: Cristi - Atlanta (xsopcast plugin); NouisMons (acestream engine plugi
 		<import addon="script.video.F4mProxy" version="2.1.7"/>
         <import addon="plugin.video.notfilmon" version="4.9.2"/>
 		<import addon="plugin.video.p2p-streams" version="0.2.7"/>
-        <import addon="plugin.video.SportsDevil" version="2.0.2"/>
+        <import addon="plugin.video.SportsDevil" version="3.0.2"/>
 		<import addon="plugin.video.f4mTester" version="2.1.7"/>
 		<import addon="plugin.video.live.streams" version="6.4"/>
         <import addon="repository.MaxMustermann.xbmc" version="1.0.1"/>

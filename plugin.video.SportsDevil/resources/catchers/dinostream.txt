@@ -1,0 +1,47 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_build=dinostream.pw - %s
+
+item_info_name=pageUrl
+item_info_from=@PARAM1@
+item_info_convert=getInfo('http://www.dinostream.pw/channel.php?file=%s&width=700&height=500&autostart=true','.*<iframe src="([^"]+)".*','@REFERER@')
+item_info_build=%s
+
+item_info_name=tmp
+item_info_from=pageUrl
+item_info_convert=getInfo('%s','.*?id="[^'"]+" value="([^'"]{10,130})".*?id="[^'"]+" value="([^'"]+).*?id="[^'"]+" value="([^'"]+).*','@REFERER@','ssx1|ssx4|tk')
+item_info_build=%s
+
+item_info_name=tkUrl
+item_info_from=tk
+item_info_convert=decodeBase64
+item_info_build=%s
+
+item_info_name=tk1
+item_info_from=ssx1
+item_info_convert=quote('%s')
+item_info_build=%s
+
+item_info_name=tk2
+item_info_from=ssx4
+item_info_convert=quote('%s')
+item_info_build=%s
+
+item_info_name=tmp2
+item_info_from=tkUrl +'?v_cod1=' + tk1 + '&v_cod2=' + tk2 + '
+item_info_convert=getInfo('%s','.*"result1":"([^\"]+)","result2":"([^\"]+)".*','@pageUrl@','file|rtmp.tmp')
+item_info_build=%s
+
+item_info_name=rtmp
+item_info_from=rtmp.tmp
+item_info_convert=replace('%s','\','')
+item_info_build=%s
+
+item_info_name=app
+item_info_from=rtmp
+item_info_convert=parseText('%s','.*rtmp://[\.\w:]*/([^"']+)')
+item_info_build=%s
+
+item_info_name=url
+item_info_from=rtmp + ' app=' + app + ' playpath=' + file + ' swfUrl=http://www.businessapp1.pw/jwplayer5/addplayer/jwplayer.flash.swf live=true flashver=WIN\2017,0,0,134 token=@@stop-stole@@ timeout=15 pageUrl=' + pageUrl
+item_info_build=%s

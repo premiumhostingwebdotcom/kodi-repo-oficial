@@ -28,7 +28,6 @@ import entities.CListItem as ListItem
 
 from utils import xbmcUtils
 
-from syncManager import SyncManager, SyncSourceType
 from dialogs.dialogQuestion import DialogQuestion
 
 from customModulesManager import CustomModulesManager
@@ -54,6 +53,7 @@ class Mode:
     DOWNLOADCUSTOMMODULE = 10
     REMOVEFROMCUSTOMMODULES = 11
     INSTALLADDON = 12
+    CHROME = 13
     
 
 
@@ -71,11 +71,6 @@ class Main:
 
         self.favouritesManager = FavouritesManager(common.Paths.favouritesFolder)
         self.customModulesManager = CustomModulesManager(common.Paths.customModulesDir, common.Paths.customModulesRepo)
-        
-        # todo: cache this (due to limited API calls for github)
-        self.syncManager = SyncManager()
-        #self.syncManager.addSource("Max Mustermann - Catchers", SyncSourceType.CATCHERS, common.Paths.catchersRepo)
-        #self.syncManager.addSource("Max Mustermann - Modules", SyncSourceType.MODULES, common.Paths.modulesRepo)
         
         if not os.path.exists(common.Paths.customModulesDir):
             os.makedirs(common.Paths.customModulesDir, 0777)
@@ -120,6 +115,12 @@ class Main:
         else:
             url = urllib.unquote_plus(videoItem['url'])
             xbmc.Player(self.getPlayerType()).play(url, listitem)
+    
+    def launchChrome (self, url, title):
+        action = 'RunPlugin(%s)' % ('plugin://plugin.program.chrome.launcher/?kiosk=yes&mode=showSite&stopPlayback=yes&url=' + url)
+        common.log('chrome test:' + str(action))
+        xbmc.executebuiltin(enc.unescape(action))
+        
 
 
     def downloadVideo(self, url, title):
@@ -246,11 +247,11 @@ class Main:
             tmp['url'] = str(common.Paths.favouritesFile)
             tmpList.items.insert(0, tmp)
             
-            tmp = ListItem.create()
-            tmp['title'] = '[COLOR red]Custom Modules[/COLOR]'
-            tmp['type'] = 'rss'
-            tmp['url'] = os.path.join(common.Paths.customModulesDir, 'custom.cfg')
-            tmpList.items.insert(0, tmp)
+            #tmp = ListItem.create()
+            #tmp['title'] = '[COLOR red]Custom Modules[/COLOR]'
+            #tmp['type'] = 'rss'
+            #tmp['url'] = os.path.join(common.Paths.customModulesDir, 'custom.cfg')
+            #tmpList.items.insert(0, tmp)
 
         # if it's the favourites menu, add item 'Add item'
         elif url == common.Paths.favouritesFile or url.startswith('favfolders'):
@@ -458,6 +459,8 @@ class Main:
                         # Add to favourites
                         contextMenuItem = createContextMenuItem('Add to SportsDevil favourites', Mode.ADDTOFAVOURITES, codedItem)
                         contextMenuItems.append(contextMenuItem)
+                contextMenuItem = createContextMenuItem('Open with Chrome launcher', Mode.CHROME, codedItem)
+                contextMenuItems.append(contextMenuItem)
 
         liz = self.createXBMCListItem(lItem)
 
@@ -495,19 +498,7 @@ class Main:
     def update(self):
         
         def checkForUpdates():
-            updates = {}          
-            common.showNotification('SportsDevil', common.translate(30275))
-            xbmcUtils.showBusyAnimation()
-                 
-            catchersUpdates = self.syncManager.getUpdates(SyncSourceType.CATCHERS, common.Paths.catchersDir)
-            if len(catchersUpdates) > 0:
-                updates["Catchers"] = catchersUpdates    
-            modulesUpdates = self.syncManager.getUpdates(SyncSourceType.MODULES, common.Paths.modulesDir)
-            if len(modulesUpdates) > 0:
-                updates["Modules"] = modulesUpdates
-            
-            xbmcUtils.hideBusyAnimation()
-            return updates
+            return None
         
         def doUpdates(typeName, updates):
             count = len(updates)
@@ -604,10 +595,10 @@ class Main:
         mode = int(self.addon.queries['mode'])
         queryString = self.addon.queries['item']
         item = ListItem.create()
-	if mode in [Mode.ADDTOFAVOURITES, Mode.REMOVEFROMFAVOURITES, Mode.EDITITEM]:
-        	item.infos = self.addon.parse_query(urllib.unquote(queryString),{})
-	else:
-		item.infos = self.addon.parse_query(queryString,{})
+        if mode in [Mode.CHROME, Mode.ADDTOFAVOURITES, Mode.REMOVEFROMFAVOURITES, Mode.EDITITEM]:
+            item.infos = self.addon.parse_query(urllib.unquote(queryString),{})
+        else:
+            item.infos = self.addon.parse_query(queryString,{})
         return [mode, item]
 
 
@@ -632,7 +623,7 @@ class Main:
             if not listItemPath.startswith(self.base):
                 if not('mode=' in paramstring and not 'mode=1&' in paramstring):   
                     xbmcplugin.setPluginFanart(self.handle, common.Paths.pluginFanart)
-                    self.clearCache()                    
+                    self.clearCache()
                      
                     #if common.getSetting('autoupdate') == 'true':    
                     #    self.update()
@@ -699,6 +690,11 @@ class Main:
                     title = item['title']
                     self.downloadVideo(url, title)
                 
+                elif mode == Mode.CHROME:
+                    url = urllib.quote(item['url'])
+                    title = item['title']
+                    self.launchChrome(url, title)
+                
                 elif mode == Mode.REMOVEFROMCUSTOMMODULES:
                     self.removeCustomModule(item)
                 
@@ -720,5 +716,3 @@ class Main:
         except Exception, e:
             common.showError('Error running SportsDevil')
             common.log('Error running SportsDevil. Reason:' + str(e))
-
-
