@@ -676,6 +676,8 @@ class F4MDownloader():
                 url = self.base_url + name
                 if queryString and '?' not in url:
                     url+='?'+queryString
+                elif '?' in self.base_url:
+                    url = self.base_url.split('?')[0] + name+'?'+self.base_url.split('?')[1]
                 #print(url),base_url,name
                 #frag_filename = u'%s-%s' % (tmpfilename, name)
                 #success = dl._do_download(frag_filename, {'url': url})

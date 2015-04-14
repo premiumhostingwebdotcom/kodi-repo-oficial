@@ -1,3 +1,6 @@
+v5.4.2.4
+DigiTele Player FIX
+
 v5.4.2.3
 DigiTele Sports FIX update
 

@@ -47,3 +47,5 @@ HLS DRM Support
 HLS non enc speed supported
 [B]Version 2.1.7[/B]
 support setresolved param
+[B]Version 2.1.8[/B]
+Query string problem

@@ -6,6 +6,8 @@
     <setting id="add_playlist" type="bool" label="Add items with multiple links as play lists" default="false"/>
     <setting id="debug" type="bool" label="Enable Add-on Debugging" default="false"/>
     <setting id="1080pquality" label="Play 1080p video ON demand if available (Not live)" type="bool" default=""/>
+    <setting id="Updatecommonresolvers" label="Update Commonresolver from Genesis" type="bool" default="false"/>
+    <setting id="genesisorpulsar" type="enum" values="Genesis|Pulsar" label="Play IMDBid with:" default="Genesis"/>
   </category>
   <category label="Add Source">
     <setting id="choose_source" type="enum" values="Choose File|Enter URL" label="Choose Source Type" default=""/>
@@ -15,6 +17,20 @@
     <setting type="action" label="Add Source" option="close" action="RunPlugin(plugin://plugin.video.live.streams/?mode=7)" />
     <setting type="sep" />
   </category>
+  <category label="Search Other Addons">
+    <setting id="searchyt" label="Search Youtube" type="bool" default="false"/>
+
+    <setting id="Youtube" label="--Update Youtube list[days]" values="0|1|2|3|4|5|6|7|8|9|10" type="enum" visible="eq(-1,true)" default="1"/>
+    <setting id="searchlongvideos" label="--Search Only Long Youtube Videos" type="bool" visible="eq(-2,true)" default="false"/>
+    <setting id="dlaudioonly" label="Create option to download only youtube audio" type="bool"  default="false"/>
+    <setting id="searchDM" label="Search dailymotion.com" type="bool" default="false"/>
+    <setting id="familyFilter" label="--Search dailymotion with familyfilter(default ON)" visible="eq(-1,true)" type="enum" values="0|1" default="1"/>
+    <setting id="dmotion" label="Cache dailymotion seach for [days]" values="0|1|2|3|4|5|6|7|8|9|10" type="enum" visible="eq(-2,true)" default="1"/>
+
+    <setting id="PulsarM" label="Search PulsarMovies (Need Pulsar Addon)" type="bool" default="false"/>    
+  </category> 
+
+
   <category label=".xml Database">
     <setting id="browse_xml_database" type="bool" label="Browse and play from .xml Database" default="false"/>
     <setting type="action" label="Add .xml Database Sources" option="close" action="Container.Update(plugin://plugin.video.live.streams/?mode=14)" />
