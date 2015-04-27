@@ -10,11 +10,11 @@ import common
 from utils import encodingUtils as enc
 from utils import datetimeUtils as dt
 from utils import regexUtils as reg
-from utils import xppod as xp
 
 from utils.xbmcUtils import select
 from utils.webUtils import isOnline
 from utils.fileUtils import getFileContent, fileExists
+
 
 
 def __parseParams(params):
@@ -277,14 +277,10 @@ def urlMerge(params, src):
     paramFile= paramArr[1].replace('%s', src).replace("\t","")
 
     if not paramFile.startswith('http'):
-        up = urlparse.urlparse(urllib.unquote(paramTrunk))
+        from urlparse import urlparse
+        up = urlparse(urllib.unquote(paramTrunk))
         if paramFile.startswith('/'):
             return urllib.basejoin(up[0] + '://' + up[1], paramFile)
         else:
             return urllib.basejoin(up[0] + '://' + up[1] + '/' + up[2],paramFile)
     return src
-
-def decodeXppod(src):
-    def removeNonAscii(s): return "".join(i for i in s if ord(i)<128)
-    return removeNonAscii(xp.Decode(src))
-    

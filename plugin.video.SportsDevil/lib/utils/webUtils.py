@@ -83,7 +83,7 @@ class BaseRequest(object):
     
     def getSource(self, url, form_data, referer):
         url = HTMLParser.HTMLParser().unescape(url)
-        parsed_link = urlparse.urlsplit(url)
+        parsed_link = urlparse.urlsplit(url.encode('utf8'))
         parsed_link = parsed_link._replace(path=urllib.quote(parsed_link.path))
         url = parsed_link.geturl()
         if not referer:

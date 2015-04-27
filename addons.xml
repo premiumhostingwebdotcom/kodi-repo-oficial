@@ -105,7 +105,7 @@ Créditos: Cristi - Atlanta (xsopcast plugin); NouisMons (acestream engine plugi
 
 <addon
   id="plugin.video.SportsDevil"
-  version="3.0.2"
+  version="3.0.3"
   name="DigiTele Sports"
   provider-name="AarronLee, MaxMustermann">
   <requires>

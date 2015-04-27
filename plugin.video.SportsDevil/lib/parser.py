@@ -227,8 +227,6 @@ class Parser(object):
                         firstJS = item[0]
                         streamId = firstJS[0]
                         jsUrl = firstJS[1]
-                        if not jsUrl.startswith('http://'):
-                            jsUrl = urllib.basejoin(startUrl,jsUrl)
                         streamerName = getHostName(jsUrl)
                         jsSource = getHTML(jsUrl, None, startUrl, True, False)
                         phpUrl = findPHP(jsSource, streamId)
@@ -246,8 +244,6 @@ class Parser(object):
                             else:
                                 red = phpUrl
                                 common.log('    -> Redirect: ' + red)
-                                if back == red:
-                                    break
                                 back = inputList.curr_url
                                 inputList.curr_url = red
                                 common.log(str(len(inputList.items)) + ' items ' + inputList.cfg + ' -> ' + red)
@@ -293,8 +289,6 @@ class Parser(object):
                         red = HTMLParser.HTMLParser().unescape(red) 
                         red = urllib.unquote(red)
                         common.log('    -> Redirect: ' + red)
-                        if back == red:
-                            break
                         back = inputList.curr_url
                         inputList.curr_url = red
                         common.log(str(len(inputList.items)) + ' items ' + inputList.cfg + ' -> ' + red)
@@ -622,11 +616,11 @@ class Parser(object):
 
             elif command == 'quote':
                 try:
-                    src = urllib.quote(params.strip("'").replace('%s', src),'')
+                    src = urllib.quote(params.strip("'").replace('%s', urllib.quote(src)))
                 except:
                     cleanParams = params.strip("'")
                     cleanParams = cleanParams.replace("%s",src.encode('utf-8'))
-                    src = urllib.quote(cleanParams,'')
+                    src = urllib.quote(cleanParams)
 
             elif command == 'unquote':
                 src = urllib.unquote(params.strip("'").replace('%s', src))
@@ -642,9 +636,6 @@ class Parser(object):
 
             elif command == 'decodeRawUnicode':
                 src = cc.decodeRawUnicode(src)
-            
-            elif command == 'decodeXppod':
-                src = cc.decodeXppod(src)
 
             elif command == 'replace':
                 src = cc.replace(params, src)

@@ -9,8 +9,8 @@ import urlparse
 
 def findJS(data):
     idName = '(?:f*id|ch)'
-    jsName = '([^\"\']+?\.js[^\"\']*?)'
-    regex = "(?:java)?scr(?:'\+')?ipt.*?" + idName + "\s*=\s*[\"']([^\"']+)[\"'][^<]*</scr(?:'\+')?ipt\s*>[^<]*<scr(?:'\+')?ipt[^<]*src=[\"']" + jsName + "[\"']"
+    jsName = '(.*?\.js)'
+    regex = "(?:java)?scr(?:'\+')?ipt[^<]+" + idName + "\s*=\s*[\"']([^\"']+)[\"'][^<]*</scr(?:'\+')?ipt\s*>[^<]*<scr(?:'\+')?ipt[^<]*src=[\"']" + jsName + "[\"']"
     
     jscript = regexUtils.findall(data, regex)
     if jscript:
@@ -26,7 +26,7 @@ def findPHP(data, streamId):
     if php:
         return re.sub(r"\'\+\s*(?:f*id|ch)\s*\+\'", "%s" % streamId,php[0])
     
-    regex = "document.write\('.*?src=['\"]*(.*?(?:f*id|ch)\s*\+'\.html*).*?['\" ]*.*?\)"
+    regex = "document.write\('.*?src=['\"]*(.*?(?:f*id|ch)\s*\+'\.html).*?['\" ]*.*?\)"
     html = regexUtils.findall(data, regex)
     if html:
         return re.sub(r"\'\+\s*(?:f*id|ch)\s*\+\'", "%s" % streamId,html[0])
@@ -199,8 +199,16 @@ def findVideoFrameLink(page, data):
                     if width > minwidth:
                         m = regexUtils.findall(iframe[0], '[\'"\s]src=["\']*\s*([^"\' ]+)\s*["\']*')
                         if m:
-                            return urlparse.urljoin(urllib.unquote(page), m[0]).strip()
-
+                            link = m[0]
+                            if not link.startswith('http://'):
+                                #if not page.endswith('/'):
+                                #    page += '/'
+                                up = urlparse.urlparse(urllib.unquote(page))
+                                if link.startswith('/'):
+                                    link = urllib.basejoin(up[0] + '://' + up[1],link)
+                                else:
+                                    link = urllib.basejoin(up[0] + '://' + up[1] + '/' + up[2],link)
+                            return link.strip()
 
     # Alternative 1
     iframes = regexUtils.findall(data, "(frame(?![^>]*cbox\.ws)(?![^>]*capacanal)(?![^>]*programacion)[^>]*[\"; ]height:\s*(\d+)[^>]*>)")
@@ -214,15 +222,17 @@ def findVideoFrameLink(page, data):
                     if width > minwidth:
                         m = regexUtils.findall(iframe[0], '[\"; ]src=["\']*\s*([^"\' ]+)\s*["\']*')
                         if m:
-                            return urlparse.urljoin(urllib.unquote(page), m[0]).strip()
+                            link = m[0]
+                            if not link.startswith('http://'):
+                                link = urllib.basejoin(page,link)
+                            return link.strip()
 
     # Alternative 2 (Frameset)
-    m = regexUtils.findall(data, '<FRAMESET[^>]+100%[^>]+>\s*<FRAME[^>]+src="([^"]+)"')
-    if m:
-        return urlparse.urljoin(urllib.unquote(page), m[0]).strip()
-    
-    m = regexUtils.findall(data, '<a href="([^"]+)" target="_blank"><img src="[^"]+" height="450" width="600" longdesc="[^"]+"/></a>')
-    if m:
-        return urlparse.urljoin(urllib.unquote(page), m[0]).strip()
+    iframes = regexUtils.findall(data, '<FRAMESET[^>]+100%[^>]+>\s*<FRAME[^>]+src="([^"]+)"')
+    if iframes:
+        link = iframes[0]
+        if not link.startswith('http://'):
+            link = urllib.basejoin(page,link)
+        return link.strip()
         
     return None
