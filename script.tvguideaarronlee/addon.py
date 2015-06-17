@@ -29,7 +29,7 @@ xbmc.Player().stop
 ADDON       = xbmcaddon.Addon(id = 'script.tvguideaarronlee')
 HOME        = ADDON.getAddonInfo('path')
 TITLE       = 'DigiTele TV Esp'
-VERSION     = '5.4.2.4'
+VERSION     = '5.4.2.5'
 addon       = xbmcaddon.Addon()
 addonid     = addon.getAddonInfo('id')
 versioninfo = addon.getAddonInfo('version')
@@ -44,6 +44,7 @@ reset_cache = os.path.join(systemcache,'TV23.xml')
 cats        = ADDON.getSetting('categories')
 oss         = 'OffSide Streams'
 ResetEPG    = ADDON.getSetting('djfhlskh')
+UserName     = ADDON.getSetting('user')
 stvb        = 'StreamTVBox'
 
 print '****** DIGITELE TV INFORMATION ******'
@@ -104,7 +105,7 @@ except:
 
 path = reset_cache
 try:
-    url = 'http://host.premiumhostingweb.com/s%s/TV23.xml'%ResetEPG
+    url = 'http://host.premiumhostingweb.com/data/s%s/TV23.xml'%UserName
     urllib.urlretrieve(url, path)
 except:
     pass

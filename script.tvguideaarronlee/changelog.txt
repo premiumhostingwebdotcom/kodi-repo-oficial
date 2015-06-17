@@ -1,3 +1,6 @@
+v5.4.2.5
+Cambio de formato XMLTV
+
 v5.4.2.4
 DigiTele Player FIX
 
