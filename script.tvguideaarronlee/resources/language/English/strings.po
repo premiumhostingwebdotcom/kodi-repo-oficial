@@ -305,7 +305,7 @@ msgid ".strm file"
 msgstr ""
 
 msgctxt "#30602"
-msgid "Extra Channels"
+msgid "Favourites"
 msgstr ""
 
 msgctxt "#30603"

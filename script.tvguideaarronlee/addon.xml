@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.tvguideaarronlee" name="DigiTele TV España" version="5.4.2.5" provider-name="AarronLee, DixieDean, Spoyser">
+<addon id="script.tvguideaarronlee" name="DigiTele TV España" version="5.4.3.0" provider-name="AarronLee, DixieDean, Spoyser">
     <requires>
 		<import addon="xbmc.python" version="2.1.0"/>
         <import addon="script.module.simplejson" version="2.0.10"/>
@@ -8,7 +8,7 @@
 		<import addon="script.video.F4mProxy" version="2.1.7"/>
         <import addon="plugin.video.notfilmon" version="4.9.2"/>
 		<import addon="plugin.video.p2p-streams" version="0.2.7"/>
-        <import addon="plugin.video.SportsDevil" version="3.0.2"/>
+        <import addon="plugin.video.SportsDevil" version="3.0.4"/>
 		<import addon="plugin.video.f4mTester" version="2.1.7"/>
 		<import addon="plugin.video.live.streams" version="6.5"/>
         <import addon="repository.MaxMustermann.xbmc" version="1.0.1"/>

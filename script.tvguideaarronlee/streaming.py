@@ -71,7 +71,7 @@ class StreamsService(object):
 
     def delCache(self):
         entries = list()
-        path = xbmc.translatePath('special://profile/Database/TV23.xml')
+        path = xbmc.translatePath('special://profile/favourites.xml')
         if os.path.exists(path):
             f = open(path)
             xml = f.read()

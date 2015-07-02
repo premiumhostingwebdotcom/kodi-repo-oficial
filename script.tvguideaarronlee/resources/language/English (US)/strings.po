@@ -17,5 +17,5 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "#30602"
-msgid "Extra Channels"
-msgstr "Extra Channels"
+msgid "Favourites"
+msgstr "Favourites"

@@ -28,7 +28,6 @@ import entities.CListItem as ListItem
 
 from utils import xbmcUtils
 
-from syncManager import SyncManager, SyncSourceType
 from dialogs.dialogQuestion import DialogQuestion
 
 from customModulesManager import CustomModulesManager
@@ -72,11 +71,6 @@ class Main:
 
         self.favouritesManager = FavouritesManager(common.Paths.favouritesFolder)
         self.customModulesManager = CustomModulesManager(common.Paths.customModulesDir, common.Paths.customModulesRepo)
-        
-        # todo: cache this (due to limited API calls for github)
-        self.syncManager = SyncManager()
-        #self.syncManager.addSource("Max Mustermann - Catchers", SyncSourceType.CATCHERS, common.Paths.catchersRepo)
-        #self.syncManager.addSource("Max Mustermann - Modules", SyncSourceType.MODULES, common.Paths.modulesRepo)
         
         if not os.path.exists(common.Paths.customModulesDir):
             os.makedirs(common.Paths.customModulesDir, 0777)
@@ -233,16 +227,21 @@ class Main:
         result = self.parser.parse(lItem)
         if result.code == ParsingResult.Code.SUCCESS:
             tmpList = result.list
-        else:
-            if result.code == ParsingResult.Code.CFGFILE_NOT_FOUND:
-                common.showError("Cfg file not found")
-            elif result.code == ParsingResult.Code.CFGSYNTAX_INVALID:
-                common.showError("Cfg syntax invalid")
-            elif result.code == ParsingResult.Code.WEBREQUEST_FAILED:
-                common.showError("Web request failed")
-
+        elif result.code == ParsingResult.Code.CFGFILE_NOT_FOUND:
+            common.showError("Cfg file not found")
             endOfDirectory(False)
             return None
+        elif result.code == ParsingResult.Code.CFGSYNTAX_INVALID:
+            common.showError("Cfg syntax invalid")
+            endOfDirectory(False)
+            return None
+        elif result.code == ParsingResult.Code.WEBREQUEST_FAILED:
+            common.showError("Web request failed")
+            if len(result.list.items) > 0:
+                tmpList = result.list
+            else:
+                endOfDirectory(False)
+                return None
 
         # if it's the main menu, add folder 'Favourites' and 'Custom Modules
         if url == self.MAIN_MENU_FILE:
@@ -253,11 +252,11 @@ class Main:
             tmp['url'] = str(common.Paths.favouritesFile)
             tmpList.items.insert(0, tmp)
             
-            tmp = ListItem.create()
-            tmp['title'] = '[COLOR red]Custom Modules[/COLOR]'
-            tmp['type'] = 'rss'
-            tmp['url'] = os.path.join(common.Paths.customModulesDir, 'custom.cfg')
-            tmpList.items.insert(0, tmp)
+            #tmp = ListItem.create()
+            #tmp['title'] = '[COLOR red]Custom Modules[/COLOR]'
+            #tmp['type'] = 'rss'
+            #tmp['url'] = os.path.join(common.Paths.customModulesDir, 'custom.cfg')
+            #tmpList.items.insert(0, tmp)
 
         # if it's the favourites menu, add item 'Add item'
         elif url == common.Paths.favouritesFile or url.startswith('favfolders'):
@@ -504,19 +503,7 @@ class Main:
     def update(self):
         
         def checkForUpdates():
-            updates = {}          
-            common.showNotification('SportsDevil', common.translate(30275))
-            xbmcUtils.showBusyAnimation()
-                 
-            catchersUpdates = self.syncManager.getUpdates(SyncSourceType.CATCHERS, common.Paths.catchersDir)
-            if len(catchersUpdates) > 0:
-                updates["Catchers"] = catchersUpdates    
-            modulesUpdates = self.syncManager.getUpdates(SyncSourceType.MODULES, common.Paths.modulesDir)
-            if len(modulesUpdates) > 0:
-                updates["Modules"] = modulesUpdates
-            
-            xbmcUtils.hideBusyAnimation()
-            return updates
+            return None
         
         def doUpdates(typeName, updates):
             count = len(updates)
@@ -641,7 +628,7 @@ class Main:
             if not listItemPath.startswith(self.base):
                 if not('mode=' in paramstring and not 'mode=1&' in paramstring):   
                     xbmcplugin.setPluginFanart(self.handle, common.Paths.pluginFanart)
-                    self.clearCache()                    
+                    self.clearCache()
                      
                     #if common.getSetting('autoupdate') == 'true':    
                     #    self.update()
@@ -734,5 +721,3 @@ class Main:
         except Exception, e:
             common.showError('Error running SportsDevil')
             common.log('Error running SportsDevil. Reason:' + str(e))
-
-

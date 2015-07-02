@@ -72,6 +72,8 @@ class BaseRequest(object):
     
     def _getRequest(self, url, form_data, headers):
         def request():
+            if url.find('castup') > 0:
+                return self.net._fetch(url, form_data, headers, False).content
             return self.net._fetch(url, form_data, headers).content
         self.url = url
         decorated = self.ErrorDecorator(request)
@@ -82,10 +84,9 @@ class BaseRequest(object):
         return self._headRequest(url)
     
     def getSource(self, url, form_data, referer):
-        url = HTMLParser.HTMLParser().unescape(url)
-        parsed_link = urlparse.urlsplit(url.encode('utf8'))
-        parsed_link = parsed_link._replace(path=urllib.quote(parsed_link.path))
-        url = parsed_link.geturl()
+        parsed_link = urlparse.urlsplit(url)
+        parsed_link = parsed_link._replace(netloc=parsed_link.netloc.encode('idna'),path=urllib.quote(parsed_link.path.encode('utf-8')))
+        url = parsed_link.geturl().encode('utf-8')
         if not referer:
             referer = url
         headers = {'Referer': referer}
@@ -103,13 +104,13 @@ class DemystifiedWebRequest(BaseRequest):
         super(DemystifiedWebRequest,self).__init__(cookiePath)
 
     def getSource(self, url, form_data, referer='', demystify=False):
-        data = super(DemystifiedWebRequest, self).getSource(url, form_data, referer)
+        data = enc.smart_unicode(super(DemystifiedWebRequest, self).getSource(url, form_data, referer))
         if not data:
             return None
 
         if not demystify:
             # remove comments
-            r = re.compile('<!--.*?(?!//)-->', re.IGNORECASE + re.DOTALL + re.MULTILINE)
+            r = re.compile('<!--.*?(?!//)--!*>', re.IGNORECASE + re.DOTALL + re.MULTILINE)
             m = r.findall(data)
             if m:
                 for comment in m:
@@ -145,7 +146,7 @@ class CachedWebRequest(DemystifiedWebRequest):
 
     def getLastUrl(self):
         url = getFileContent(self.lastUrlPath)
-        return url
+        return url.decode('utf-8')
 
     def getSource(self, url, form_data, referer='', ignoreCache=False, demystify=False):
 

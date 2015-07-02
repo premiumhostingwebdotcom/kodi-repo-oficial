@@ -37,7 +37,7 @@ def check_login(source,username):
     
     #the string you will use to check if the login is successful.
     #you may want to set it to:    username     (no quotes)
-    logged_in_string = 'Hello'
+    logged_in_string = username
 
     #search for the string in the html, without caring about upper or lower case
     if re.search(logged_in_string,source,re.IGNORECASE):
@@ -62,7 +62,7 @@ def doLogin(cookiepath, username, password):
     if username and password:
 
         #the url you will request to.
-        login_url = 'http://fantasti.cc/signin.php'
+        login_url = 'http://94.23.217.50:8000/index.php?action=login'
 
         #the header used to pretend you are a browser
         header_string = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3'

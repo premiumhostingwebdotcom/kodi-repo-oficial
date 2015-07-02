@@ -10,11 +10,11 @@ import common
 from utils import encodingUtils as enc
 from utils import datetimeUtils as dt
 from utils import regexUtils as reg
+from utils import xppod as xp
 
 from utils.xbmcUtils import select
 from utils.webUtils import isOnline
 from utils.fileUtils import getFileContent, fileExists
-
 
 
 def __parseParams(params):
@@ -162,8 +162,11 @@ def getInfo(item, params, src):
             referer = item.getInfo(referer.strip('@'))
     if len(paramArr) > 3:
         variables = paramArr[3].strip("'").split('|')
-    common.log('Get Info from: "'+ paramPage + '" from "' + referer + '"')
-
+        
+    parsed_link = urlparse.urlsplit(referer)
+    parsed_link = parsed_link._replace(netloc=parsed_link.netloc.encode('idna'),path=urllib.quote(parsed_link.path.encode('utf-8')))
+    referer = parsed_link.geturl().encode('utf-8')
+    
     try:
         parts = (paramPage.split('|', 1) + [None] * 2)[:2]
         paramPage, form_data = parts
@@ -171,7 +174,8 @@ def getInfo(item, params, src):
     except: 
         pass
 
-    data = common.getHTML(paramPage, form_data, referer, referer!='',demystify=True)
+    common.log('Get Info from: "'+ paramPage + '" from "' + referer + '"')
+    data = common.getHTML(paramPage, form_data, referer, ignoreCache=False,demystify=True)
     return reg.parseText(data, paramRegex, variables)
 
 
@@ -277,10 +281,16 @@ def urlMerge(params, src):
     paramFile= paramArr[1].replace('%s', src).replace("\t","")
 
     if not paramFile.startswith('http'):
-        from urlparse import urlparse
-        up = urlparse(urllib.unquote(paramTrunk))
+        up = urlparse.urlparse(urllib.unquote(paramTrunk))
         if paramFile.startswith('/'):
             return urllib.basejoin(up[0] + '://' + up[1], paramFile)
         else:
             return urllib.basejoin(up[0] + '://' + up[1] + '/' + up[2],paramFile)
     return src
+
+def decodeXppod(src):
+    return xp.decode(src)
+
+def decodeXppod_hls(src):
+    return xp.decode_hls(src)
+    

@@ -11,9 +11,14 @@ import xbmc, xbmcaddon
 __settings__ = xbmcaddon.Addon(id='plugin.video.SportsDevil')
 __icon__ = xbmcaddon.Addon(id='plugin.video.SportsDevil').getAddonInfo('icon')
 translate = __settings__.getLocalizedString
-log = xbmc.log
 enable_debug = True
 language = xbmc.getLanguage
+
+def log(msg, level=xbmc.LOGNOTICE):
+    plugin = "SportsDevil"
+    msg = msg.encode('utf-8')
+
+    xbmc.log("[%s] %s" % (plugin, msg.__str__()), level)
 
 def getSetting(name):
     return __settings__.getSetting(name)

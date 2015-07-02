@@ -26,10 +26,11 @@ import shutil
 xbmc.Player().stop
 
 
+
 ADDON       = xbmcaddon.Addon(id = 'script.tvguideaarronlee')
 HOME        = ADDON.getAddonInfo('path')
 TITLE       = 'DigiTele TV Esp'
-VERSION     = '5.4.2.5'
+VERSION     = '5.4.3.0'
 addon       = xbmcaddon.Addon()
 addonid     = addon.getAddonInfo('id')
 versioninfo = addon.getAddonInfo('version')
@@ -40,11 +41,10 @@ systemcache = os.path.join(xbmc.translatePath('special://profile'), 'Database')
 default_ini = os.path.join(addonpath, 'addons.ini')
 local_ini   = os.path.join(addonpath, 'local.ini')
 current_ini = os.path.join(datapath, 'addons.ini')
-reset_cache = os.path.join(systemcache,'TV23.xml')
 cats        = ADDON.getSetting('categories')
 oss         = 'OffSide Streams'
 ResetEPG    = ADDON.getSetting('djfhlskh')
-UserName     = ADDON.getSetting('user')
+UserName     = ADDON.getSetting('username')
 stvb        = 'StreamTVBox'
 
 print '****** DIGITELE TV INFORMATION ******'
@@ -98,17 +98,11 @@ def ttTTtt(i, t1, t2=[]):
 
 path = current_ini
 try:
-    url = 'http://host.premiumhostingweb.com/s%s/addons.ini'%ResetEPG
+    url = 'http://host.premiumhostingweb.com/data/s%s/addons.ini'%ResetEPG
     urllib.urlretrieve(url, path)
 except:
     pass
 
-path = reset_cache
-try:
-    url = 'http://host.premiumhostingweb.com/data/s%s/TV23.xml'%UserName
-    urllib.urlretrieve(url, path)
-except:
-    pass
 	
 	
 busy = None

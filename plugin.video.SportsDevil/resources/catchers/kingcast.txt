@@ -12,5 +12,5 @@ item_info_convert=getInfo('%s','.*?['"]?file['"]?[:,]\s*['"]([^'"]+)['"].*','@RE
 item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp + ' swfUrl=http://www.kingcast.tv/jwplayer/jwplayer.flash.swf flashver=WIN\2017,0,0,134 swfVfy=1 timeout=10 live=true pageUrl=' + pageUrl
+item_info_from=rtmp + ' swfUrl=http://www.kingcast.tv/jwplayer/jwplayer.flash.swf flashver=WIN\2018,0,0,160 swfVfy=1 timeout=10 live=true pageUrl=' + pageUrl
 item_info_build=%s

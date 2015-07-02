@@ -8,6 +8,8 @@ from regexUtils import parseTextToGroups
 from webUtils import get_redirected_url
 
 from javascriptUtils import JsFunctions, JsUnpacker,JsUnpackerV2, JsUnwiser, JsUnIonCube, JsUnFunc, JsUnPP
+import HTMLParser
+html = HTMLParser.HTMLParser()
 
 
 def encryptDES_ECB(data, key):
@@ -54,6 +56,9 @@ def doDemystify(data):
 
     # replace NUL
     data = data.replace('\0','')
+    
+    data = html.unescape(data)
+    
 
     # unescape
     r = re.compile('a1=["\'](%3C(?=[^\'"]*%\w\w)[^\'"]+)["\']')

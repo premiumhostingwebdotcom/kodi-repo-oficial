@@ -1,4 +1,3 @@
-
 item_info_name=channelid
 item_info_from=@PARAM1@
 item_info_convert=getInfo('%s','.*ustream.vars.(?:channelId|cId)=([^;]+).*')
@@ -10,7 +9,5 @@ item_info_build=UStream - %s
 
 
 item_info_name=url
-#item_info_from=http://iphone-streaming.ustream.tv/uhls/' + channelid + '/streams/live/iphone/playlist.m3u8
-item_info_from=http://sjc-uhls-vip01.ustream.tv/watch/playlist.m3u8?cid=' + channelid + '
+item_info_from=http://iphone-streaming.ustream.tv/uhls/' + channelid + '/streams/live/iphone/playlist.m3u8
 item_info_build=%s
-

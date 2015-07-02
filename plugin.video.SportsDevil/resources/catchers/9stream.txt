@@ -38,5 +38,5 @@ item_info_convert=parseText('%s','.*.*rtmp://[\.\w:]*/([^\s]+)')
 item_info_build=%s
 
 item_info_name=url
-item_info_from=rtmp +' app=' + app + ' playpath=' + file + ' swfUrl=http://www.9stream.com/player/player_embed_iguide.swf flashver=WIN\2017,0,0,134 token=' + token + ' timeout=15 swfVfy=1 pageUrl=http://www.9stream.com
+item_info_from=rtmp +' app=' + app + ' playpath=' + file + ' swfUrl=http://www.9stream.com/player/player_embed_iguide.swf flashver=WIN\2018,0,0,160 token=' + token + ' timeout=15 swfVfy=1 pageUrl=http://www.9stream.com
 item_info_build=%s

@@ -4,7 +4,7 @@ item_info_build=04stream - %s
 
 item_info_name=url
 item_info_from=@PARAM1@
-item_info_build=rtmp://31.7.56.254:1935/stream/%s.stream swfUrl=http://thecdn.04stream.com/p/ooolo1.swf live=true timeout=15 swfVfy=1 pageUrl=http://www.04stream.com/ebb.php
+item_info_build=rtmp://179.43.158.196:1935/stream/%s.stream swfUrl=http://thecdn.04stream.com/p/ooolo1.swf live=true timeout=15 swfVfy=1 pageUrl=http://www.04stream.com/ebb.php
 
 #item_info_name=pageUrl
 #item_info_from=@PARAM1@

@@ -253,8 +253,8 @@ msgid ".strm file"
 msgstr "archivo .strm"
 
 msgctxt "#30602"
-msgid "Extra Channels"
-msgstr "Canales Extra"
+msgid "Favourites"
+msgstr "Favoritos"
 
 msgctxt "#30603"
 msgid "Addons"

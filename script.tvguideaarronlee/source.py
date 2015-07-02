@@ -41,7 +41,7 @@ datapath   = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 extras     = os.path.join(datapath, 'extras')
 logopath   = os.path.join(extras, 'logos')
 logos      = None
-UserName     = ADDON.getSetting('user')
+UserName     = ADDON.getSetting('username')
 
 if SOURCE == 'DIGITELE':
     logos = os.path.join(logopath, DIGITELELOGOS)

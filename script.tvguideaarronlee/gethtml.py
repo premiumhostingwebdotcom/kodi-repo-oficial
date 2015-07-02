@@ -29,7 +29,7 @@ import re
 #!!!!!!!!!!! Please set the compatible_urllist
 #set the list of URLs you want to load with cookies.
 #matches bits of url, so that if you want to match www243.megaupload.com/ you can just put '.megaupload.com/' in the list. 
-compatible_urllist = ['http://fantasti.cc/','http://77.247.181.97/']
+compatible_urllist = ['http://94.23.217.50:8000/']
 
 
 def url_for_cookies(url):
