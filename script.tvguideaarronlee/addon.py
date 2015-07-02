@@ -30,7 +30,7 @@ xbmc.Player().stop
 ADDON       = xbmcaddon.Addon(id = 'script.tvguideaarronlee')
 HOME        = ADDON.getAddonInfo('path')
 TITLE       = 'DigiTele TV Esp'
-VERSION     = '5.4.3.0'
+VERSION     = '5.4.3.1'
 addon       = xbmcaddon.Addon()
 addonid     = addon.getAddonInfo('id')
 versioninfo = addon.getAddonInfo('version')
@@ -43,7 +43,7 @@ local_ini   = os.path.join(addonpath, 'local.ini')
 current_ini = os.path.join(datapath, 'addons.ini')
 cats        = ADDON.getSetting('categories')
 oss         = 'OffSide Streams'
-ResetEPG    = ADDON.getSetting('djfhlskh')
+ResetEPG    = ADDON.getSetting('username')
 UserName     = ADDON.getSetting('username')
 stvb        = 'StreamTVBox'
 
