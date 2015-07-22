@@ -11,12 +11,12 @@
  		<setting id="gmtfrom" label="30124" type="labelenum"  default="GMT"
 					values="GMT-12|GMT-11|GMT-10|GMT-9|GMT-8|GMT-7|GMT-6|GMT-5|GMT-4|GMT-3|GMT-2|GMT-1|GMT|GMT+1|GMT+2|GMT+3|GMT+4|GMT+5|GMT+6|GMT+7|GMT+8|GMT+9|GMT+10|GMT+11|GMT+12"
 					visible="eq(-4,1)" />
-		<setting id="dummy" label="Descargar Logos" type="action" action="RunScript($CWD/logoDownloader.py)" visible="eq(-5,1)" />
+		<setting id="dummy" label="Descargar Logos" type="action" action="XBMC.RunScript(special://home/addons/script.tvguideaarronlee/logoDownloader.py)" visible="eq(-5,1)" />
 		<setting id="digitele.logo.folder" label="Elegir Logos" type="select"  source="../../userdata/addon_data/script.tvguideaarronlee/extras/logos/" mask="/" default="None" visible="eq(-6,1)" />
         
 	<setting id="gmtprev" type="text" label="Previous GMT" default="0" visible="false"/>
 	<setting id="categories" label="categories" type="text" default="" visible="false"/>
-    <setting id="VERSION" type="text" label="Current Version" default="5.4.3.1" visible="false"/>
+    <setting id="VERSION" type="text" label="Current Version" default="5.4.3.2" visible="false"/>
     </category>
 
     <category label="30114">
@@ -40,7 +40,7 @@
 	<setting id="djfhlskh" type="text" label="DigiClave" default=""/>
 	    
         <setting id="notifications.enabled" label="30106" type="bool" default="false" visible="false"/>
-        <setting id="dummy" label="30108" type="action" action="RunScript($CWD/notification.py)" visible="false"/>
+        <setting id="dummy" label="30108" type="action" action="XBMC.RunScript(special://home/addons/script.tvguideaarronlee/notification.py)" visible="false"/>
 
 </category>
 	
@@ -50,7 +50,7 @@
     </category> -->
     
     <category label="30125">
-        <setting id="dummy" label="30126" type="action" action="RunScript($CWD/deleteDB.py)" />
+        <setting id="dummy" label="30126" type="action" action="XBMC.RunScript(special://home/addons/script.tvguideaarronlee/deleteDB.py)" />
     </category>
     
     
