@@ -2,6 +2,7 @@ import xbmc
 import xbmcaddon
 import download
 import extract
+import os
 
 
 ADDON    = xbmcaddon.Addon(id = 'script.tvguideaarronlee')

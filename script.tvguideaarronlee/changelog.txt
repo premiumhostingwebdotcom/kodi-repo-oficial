@@ -1,3 +1,6 @@
+v5.4.3.5
+BUG Kodi 15.0
+
 v5.4.3.4
 Descargar Logos FIX
 
